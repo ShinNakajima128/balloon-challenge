@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, 
     [SerializeField] float m_minCapacity = 100;
     /// <summary>バルーン</summary>
     [SerializeField] BalloonController m_balloon = default;
+    /// <summary>スキルレンジ</summary>
+    [SerializeField] GetSkillRange getSkill = default;
     /// <summary>BGM を鳴らす AudioSource</summary>
     [SerializeField] AudioSource m_bgm = default;
     /// <summary>危険になると BGM の Pitch を上げていくが、その最大値</summary>
@@ -179,6 +181,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, 
         {
             Debug.Log("This is my turn.");
             controllerVisibleFlag = true;
+
         }
 
         Array.ForEach(m_myControllerObjects, e => e.SetActive(controllerVisibleFlag));

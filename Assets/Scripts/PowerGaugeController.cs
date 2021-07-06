@@ -14,6 +14,8 @@ public class PowerGaugeController : MonoBehaviour
     [SerializeField] Slider m_powerGauge = default;
     /// <summary>ゲージが上下する速度</summary>
     [SerializeField] float m_gaugeSpeed = 3;
+    /// <summary>スキルによって変化させる速度</summary>
+    [SerializeField] float m_skillSpeed = 0;
     Coroutine m_coroutine = default;
 
     /// <summary>
@@ -45,9 +47,10 @@ public class PowerGaugeController : MonoBehaviour
     {
         float timer = 0;
 
+
         while (true)
         {
-            m_powerGauge.value = Mathf.PingPong(m_gaugeSpeed * timer, m_powerGauge.maxValue);
+            m_powerGauge.value = Mathf.PingPong((m_gaugeSpeed + m_skillSpeed) * timer, m_powerGauge.maxValue);
             timer += Time.deltaTime;    // 放置しておくといずれオーバーフローする。「制限時間を設けて強制的に押した事にする」機能を後で加えることになるだろうからこのままにしておく。
             yield return new WaitForEndOfFrame();
         }
