@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, 
     [SerializeField] BalloonController m_balloon = default;
     /// <summary>スキルレンジ</summary>
     [SerializeField] GetSkillRange getSkill = default;
+    /// <summary>リザルト</summary>
+    [SerializeField] Result result = default;
     /// <summary>BGM を鳴らす AudioSource</summary>
     [SerializeField] AudioSource m_bgm = default;
     /// <summary>危険になると BGM の Pitch を上げていくが、その最大値</summary>
@@ -127,6 +129,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, 
             m_bgm.Stop();
             m_balloon.Crack();
             Debug.Log($"Player {this.ActivePlayer.ActorNumber} cracked balloon.");
+            result.m_name = $"Player {this.ActivePlayer.ActorNumber}";
+            result.ResultDisPlay();
         }
     }
 
