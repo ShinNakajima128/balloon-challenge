@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 // Photon 用の名前空間を参照する
 using ExitGames.Client.Photon;
 using Photon.Pun;
@@ -18,6 +19,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks // Photon Realtime 用�
     [SerializeField] PunTurnManager m_punTurnManager = default;
     /// <summary>Photon の Turn Management イベントの Listen を開始する関数を指定する</summary>
     [SerializeField] UnityEvent m_startListeningTurnManager = default;
+    [SerializeField] PlayerNameManager playerNameManager = default;
+    [SerializeField] GameObject m_playerList = default;
+    [SerializeField] GameObject m_playerName = default;
+    GameObject m_myselfNameObject = default;
+    public static bool isInputed = false;
 
     private void Awake()
     {
@@ -30,7 +36,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks // Photon Realtime 用�
     private void Start()
     {
         // Photon に接続する
-        Connect("1.0"); // 1.0 はバージョン番号（同じバージョンを指定したクライアント同士が接続できる）
+        //Connect("1.0"); // 1.0 はバージョン番号（同じバージョンを指定したクライアント同士が接続できる）
+    }
+    
+    public void StartConnect()
+    {
+        if (isInputed)
+        {
+            Connect("1.0");
+        }
     }
 
     /// <summary>
@@ -54,6 +68,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks // Photon Realtime 用�
         {
             Debug.Log("nickName: " + nickName);
             PhotonNetwork.LocalPlayer.NickName = nickName;
+            m_myselfNameObject = Instantiate(m_playerName, m_playerList.transform);
+            m_myselfNameObject.GetComponent<Text>().text = nickName;
         }
     }
 
@@ -117,13 +133,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks // Photon Realtime 用�
     public override void OnConnected()
     {
         Debug.Log("OnConnected");
-        SetMyNickName(System.Environment.UserName + "@" + System.Environment.MachineName);
+        //SetMyNickName(System.Environment.UserName + "@" + System.Environment.MachineName);
+        Debug.Log(playerNameManager.GetPlayerName);
+        SetMyNickName(playerNameManager.GetPlayerName);
     }
 
     /// <summary>Photon との接続が切れた時</summary>
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.Log("OnDisconnected");
+        Destroy(m_myselfNameObject);
     }
 
     /// <summary>マスターサーバーに接続した時</summary>
@@ -163,8 +182,21 @@ public class NetworkManager : MonoBehaviourPunCallbacks // Photon Realtime 用�
     {
         Debug.Log("OnJoinedRoom");
         // 最大人数に達したらゲームを開始する
+
+       
         int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
         Debug.Log($"Player count: {playerCount}");
+
+        for (int i = 1; i <= playerCount; i++)
+        {
+            if (m_myselfNameObject.GetComponent<Text>().text == PhotonNetwork.CurrentRoom.Players[i].NickName) continue;
+
+            var player = Instantiate(m_playerName, m_playerList.transform);
+            player.GetComponent<Text>().text = PhotonNetwork.CurrentRoom.Players[i].NickName;
+            Debug.Log(player.GetComponent<Text>().text);
+        }
+        
+        
 
         if (playerCount >= m_maxPlayersPerRoom)
         {
@@ -194,7 +226,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks // Photon Realtime 用�
     /// <summary>自分のいる部屋に他のプレイヤーが入室してきた時</summary>
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Debug.Log("OnPlayerEnteredRoom: " + newPlayer.NickName);
+        //Debug.Log("OnPlayerEnteredRoom: " + newPlayer.NickName);
+        var player = Instantiate(m_playerName, m_playerList.transform);
+        player.GetComponent<Text>().text = newPlayer.NickName;
 
         // 最大人数に達したらゲームを開始する
         int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
