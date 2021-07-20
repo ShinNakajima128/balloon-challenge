@@ -129,7 +129,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, 
             m_bgm.Stop();
             m_balloon.Crack();
             Debug.Log($"Player {this.ActivePlayer.ActorNumber} cracked balloon.");
-            result.m_name = $"Player {this.ActivePlayer.ActorNumber}";
+            //result.m_name = $"Player {this.ActivePlayer.ActorNumber}";
+            result.m_name = PhotonNetwork.CurrentRoom.Players[this.ActivePlayer.ActorNumber].NickName;
             result.ResultDisPlay();
         }
     }
