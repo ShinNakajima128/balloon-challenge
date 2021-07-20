@@ -12,6 +12,6 @@ public class GetSkillRange : MonoBehaviour
 
     public float MaxValue
     { 
-        get { return minValue; } set { minValue = value; }
+        get { return maxValue; } set { maxValue = value; }
     }
 }

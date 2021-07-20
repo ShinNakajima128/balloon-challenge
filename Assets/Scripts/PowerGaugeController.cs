@@ -17,6 +17,7 @@ public class PowerGaugeController : MonoBehaviour
     /// <summary>スキルによって変化させる速度</summary>
     [SerializeField] float m_skillSpeed = 0;
     Coroutine m_coroutine = default;
+    bool m_skillFlag = false;
 
     /// <summary>
     /// ゲージを動かす／止める時に呼ぶ。
