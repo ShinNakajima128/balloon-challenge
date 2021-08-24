@@ -16,8 +16,11 @@ public class PowerGaugeController : MonoBehaviour
     [SerializeField] float m_gaugeSpeed = 3;
     /// <summary>スキルによって変化させる速度</summary>
     [SerializeField] float m_skillSpeed = 0;
+    /// <summary>プレイヤーの持ち時間</summary>
+    [SerializeField] float m_timeLimit = 10;
+    [SerializeField] Text m_timeText;
     Coroutine m_coroutine = default;
-
+    
     /// <summary>
     /// ゲージを動かす／止める時に呼ぶ。
     /// ゲージが動いていない時に呼ばれたら、ゲージを動かす。
@@ -28,10 +31,12 @@ public class PowerGaugeController : MonoBehaviour
     {
         if (m_coroutine == null)
         {
+            m_timeText.gameObject.SetActive(true);
             m_coroutine = StartCoroutine(PingPongGauge());
         }
         else
         {
+            m_timeText.gameObject.SetActive(false);
             StopCoroutine(m_coroutine);
             m_coroutine = null;
             Debug.Log($"Pump value: {m_powerGauge.value}");
@@ -52,6 +57,11 @@ public class PowerGaugeController : MonoBehaviour
         {
             m_powerGauge.value = Mathf.PingPong((m_gaugeSpeed + m_skillSpeed) * timer, m_powerGauge.maxValue);
             timer += Time.deltaTime;    // 放置しておくといずれオーバーフローする。「制限時間を設けて強制的に押した事にする」機能を後で加えることになるだろうからこのままにしておく。
+            m_timeText.text = "残り : " + (int)(m_timeLimit - timer);
+            if (timer >= m_timeLimit)
+            {
+                StartAndStopGauge();
+            }
             yield return new WaitForEndOfFrame();
         }
     }
