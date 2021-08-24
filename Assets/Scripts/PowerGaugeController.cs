@@ -58,7 +58,7 @@ public class PowerGaugeController : MonoBehaviour
             m_powerGauge.value = Mathf.PingPong((m_gaugeSpeed + m_skillSpeed) * timer, m_powerGauge.maxValue);
             timer += Time.deltaTime;    
             m_timeText.text = "残り : " + (int)(m_timeLimit - timer);
-            if (timer >= m_timeLimit)
+            if (timer > m_timeLimit)
             {
                 StartAndStopGauge();
             }
