@@ -189,6 +189,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks // Photon Realtime 用�
 
         for (int i = 1; i <= playerCount; i++)
         {
+            Debug.Log($"{PhotonNetwork.CurrentRoom.Players[i].NickName}" + "入室：" + $"{PhotonNetwork.CurrentRoom.Players[i].ActorNumber}");
             if (m_myselfNameObject.GetComponent<Text>().text == PhotonNetwork.CurrentRoom.Players[i].NickName) continue;
 
             var player = Instantiate(m_playerName, m_playerList.transform);
