@@ -56,7 +56,7 @@ public class PowerGaugeController : MonoBehaviour
         while (true)
         {
             m_powerGauge.value = Mathf.PingPong((m_gaugeSpeed + m_skillSpeed) * timer, m_powerGauge.maxValue);
-            timer += Time.deltaTime;    // 放置しておくといずれオーバーフローする。「制限時間を設けて強制的に押した事にする」機能を後で加えることになるだろうからこのままにしておく。
+            timer += Time.deltaTime;    
             m_timeText.text = "残り : " + (int)(m_timeLimit - timer);
             if (timer >= m_timeLimit)
             {
