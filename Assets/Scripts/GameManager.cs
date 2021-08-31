@@ -187,13 +187,13 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, 
         Debug.Log("Enter OnTurnBegins.");
         m_activePlayerIndex = 0;    // 最初のプレイヤーからターンを始める
         bool controllerVisibleFlag = false;
-
+        CurrentTurn.Instance.OnIcon(PhotonNetwork.PlayerList[m_activePlayerIndex].ActorNumber - 1);
         // 自分の番なら操作パネルを表示する
         if (this.ActivePlayer.Equals(PhotonNetwork.LocalPlayer))
         {
             Debug.Log("This is my turn.");
             controllerVisibleFlag = true;
-            CurrentTurn.Instance.OnIcon(PhotonNetwork.PlayerList[m_activePlayerIndex].ActorNumber - 1);
+            
         }
 
         Array.ForEach(m_myControllerObjects, e => e.SetActive(controllerVisibleFlag));

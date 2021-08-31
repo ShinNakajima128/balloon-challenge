@@ -29,6 +29,7 @@ public class CurrentTurn : MonoBehaviour
     public void OnIcon(int playerNum)
     {
         m_icon.SetActive(true);
-        m_icon.transform.position = playerList[playerNum].transform.position;
+        var pos = new Vector3(playerList[playerNum].transform.position.x - 115, playerList[playerNum].transform.position.y, playerList[playerNum].transform.position.z);
+        m_icon.transform.position = pos;
     }
 }
