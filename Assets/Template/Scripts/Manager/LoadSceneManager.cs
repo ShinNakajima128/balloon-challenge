@@ -10,11 +10,11 @@ using UnityEngine.SceneManagement;
 public class LoadSceneManager : SingletonMonoBehaviour<LoadSceneManager>
 {
     [Header("タイトルのScene")]
-    [SerializeField] const string m_titleScene = "Title";
+    [SerializeField] string m_titleScene = "Title";
     [Header("プレイするScene")]
-    [SerializeField] const string m_mainScene = "Main";
+    [SerializeField] string m_mainScene = "Main";
     [Header("リザルトのScene")]
-    [SerializeField] const string m_resultScene = "Result";
+    [SerializeField] string m_resultScene = "Result";
     [Header("ロード時に要する時間")]
     [SerializeField] float m_LoadTimer = 1.0f;
     [Header("フェード時に使用するImage")]
@@ -90,13 +90,13 @@ public class LoadSceneManager : SingletonMonoBehaviour<LoadSceneManager>
 
         switch (SceneManager.GetActiveScene().name)
         {
-            case m_titleScene:
+            case "Title":
                 Debug.Log("Title");
                 break;
-            case m_mainScene:
+            case "Main":
                 Debug.Log("Main");
                 break;
-            case m_resultScene:
+            case "Result":
                 Debug.Log("Result");
                 break;
         }

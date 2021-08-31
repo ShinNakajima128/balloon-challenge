@@ -68,9 +68,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks // Photon Realtime 用�
         {
             Debug.Log("nickName: " + nickName);
             PhotonNetwork.LocalPlayer.NickName = nickName;
-            m_myselfNameObject = Instantiate(m_playerName, m_playerList.transform);
-            CurrentTurn.Instance.PlayerList.Add(m_myselfNameObject);
-            m_myselfNameObject.GetComponent<Text>().text = nickName;
         }
     }
 
@@ -191,8 +188,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks // Photon Realtime 用�
         for (int i = 1; i <= playerCount; i++)
         {
             Debug.Log($"{PhotonNetwork.CurrentRoom.Players[i].NickName}" + "入室：" + $"{PhotonNetwork.CurrentRoom.Players[i].ActorNumber}");
-            if (m_myselfNameObject.GetComponent<Text>().text == PhotonNetwork.CurrentRoom.Players[i].NickName) continue;
-
             var player = Instantiate(m_playerName, m_playerList.transform);
             CurrentTurn.Instance.PlayerList.Add(player);
             player.GetComponent<Text>().text = PhotonNetwork.CurrentRoom.Players[i].NickName;
