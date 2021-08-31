@@ -14,8 +14,6 @@ public class PowerGaugeController : MonoBehaviour
     [SerializeField] Slider m_powerGauge = default;
     /// <summary>ゲージが上下する速度</summary>
     [SerializeField] float m_gaugeSpeed = 3;
-    /// <summary>スキルによって変化させる速度</summary>
-    [SerializeField] float m_skillSpeed = 0;
     /// <summary>プレイヤーの持ち時間</summary>
     [SerializeField] float m_timeLimit = 10;
     [SerializeField] Text m_timeText;
@@ -40,6 +38,7 @@ public class PowerGaugeController : MonoBehaviour
             StopCoroutine(m_coroutine);
             m_coroutine = null;
             Debug.Log($"Pump value: {m_powerGauge.value}");
+            SkillGaugeManager.Instance.JudgeGaugePattern(m_powerGauge.value);
             m_gm.Pump(m_powerGauge.value);
         }
     }
@@ -51,12 +50,12 @@ public class PowerGaugeController : MonoBehaviour
     IEnumerator PingPongGauge()
     {
         float timer = 0;
-
+        float speed = SkillGaugeManager.Instance.SkillSpeed(SkillGaugeManager.Instance.IsEfect);
 
         while (true)
         {
-            m_powerGauge.value = Mathf.PingPong((m_gaugeSpeed + m_skillSpeed) * timer, m_powerGauge.maxValue);
-            timer += Time.deltaTime;    
+            m_powerGauge.value = Mathf.PingPong(m_gaugeSpeed * speed * timer, m_powerGauge.maxValue);
+            timer += Time.deltaTime;
             m_timeText.text = "残り : " + (int)(m_timeLimit - timer);
             if (timer > m_timeLimit)
             {

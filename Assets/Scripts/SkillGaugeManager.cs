@@ -5,29 +5,50 @@ using UnityEngine;
 public class SkillGaugeManager : MonoBehaviour
 {
     // GaugePatternの子オブジェクトを格納する配列
-    [SerializeField] GameObject[] gaugePatternList = default;
+    [SerializeField] GameObject[] gaugePattern = new GameObject[5];
+    [SerializeField] float m_skillSpeed = 3f;
     int patternNumber = 0;
+    bool m_isEfect = false;
+    public static SkillGaugeManager Instance;
 
-    // Update is called once per frame
-    void Update()
+    public bool IsEfect => m_isEfect;
+    private void Awake()
     {
-
+        Instance = this;
     }
     public void SetGaugePattern()
     {
         patternNumber = Random.Range(0, 5);
-        gaugePatternList[patternNumber].SetActive(true);
+        gaugePattern[patternNumber].SetActive(true);
     }
     public void RemoveGaugePattern()
     {
-        gaugePatternList[patternNumber].SetActive(false);
+        gaugePattern[patternNumber].SetActive(false);
     }
     public void JudgeGaugePattern(float value)
     {
-        float judgeNumber = 1 / gaugePatternList.Length;
+        float judgeNumber = (float)1 / gaugePattern.Length;
         int judgePatternNumber = (int)(value / judgeNumber);
+        if (judgePatternNumber == patternNumber)
+        {
+            m_isEfect = true;
+        }
+        else
+        {
+            m_isEfect = false;
+        } 
 
 
-
+    }
+    public float SkillSpeed(bool frag)
+    {
+        if (frag)
+        {
+            return m_skillSpeed;
+        }
+        else
+        {
+            return 1f;
+        }
     }
 }
