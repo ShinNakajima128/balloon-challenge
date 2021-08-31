@@ -13,6 +13,7 @@ using ExitGames.Client.Photon;  // EventData, SendOptions を使うため
 /// </summary>
 public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, IOnEventCallback
 {
+    public static GameManager Instance = default;
     /// <summary>ランダムで決定されるキャパシティの最大値</summary>
     [SerializeField] float m_maxCapacity = 120;
     /// <summary>ランダムで決定されるキャパシティの最小値</summary>
@@ -44,6 +45,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, 
     Player ActivePlayer
     {
         get { return PhotonNetwork.PlayerList[m_activePlayerIndex]; }
+    }
+
+    private void Awake()
+    {
+        Instance = this;
     }
 
     void Start()
@@ -153,6 +159,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, 
     {
         m_activePlayerIndex = (m_activePlayerIndex + 1) % PhotonNetwork.PlayerList.Length;
         Debug.Log($"Active player changed to {PhotonNetwork.PlayerList[m_activePlayerIndex].ActorNumber}");
+        CurrentTurn.Instance.OnIcon(PhotonNetwork.PlayerList[m_activePlayerIndex].ActorNumber - 1);
     }
 
     #region IOnEventCallback の実装
@@ -186,7 +193,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, 
         {
             Debug.Log("This is my turn.");
             controllerVisibleFlag = true;
-
+            CurrentTurn.Instance.OnIcon(PhotonNetwork.PlayerList[m_activePlayerIndex].ActorNumber - 1);
         }
 
         Array.ForEach(m_myControllerObjects, e => e.SetActive(controllerVisibleFlag));
