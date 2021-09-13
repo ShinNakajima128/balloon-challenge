@@ -20,8 +20,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, 
     [SerializeField] float m_minCapacity = 100;
     /// <summary>バルーン</summary>
     [SerializeField] BalloonController m_balloon = default;
-    /// <summary>スキルレンジ</summary>
-    [SerializeField] GetSkillRange getSkill = default;
     /// <summary>リザルト</summary>
     [SerializeField] Result result = default;
     /// <summary>BGM を鳴らす AudioSource</summary>
@@ -193,6 +191,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, 
         {
             Debug.Log("This is my turn.");
             controllerVisibleFlag = true;
+            SkillGaugeManager.Instance.SetGaugePattern();
             
         }
 
@@ -206,6 +205,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, 
 
     void IPunTurnManagerCallbacks.OnPlayerFinished(Player player, int turn, object move)
     {
+        SkillGaugeManager.Instance.RemoveGaugePattern();
         Debug.Log("Enter OnPlayerFinished.");
         MoveToNextPlayer();
 
