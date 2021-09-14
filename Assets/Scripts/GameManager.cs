@@ -191,7 +191,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, 
         {
             Debug.Log("This is my turn.");
             controllerVisibleFlag = true;
-            SkillGaugeManager.Instance.SetGaugePattern();
             
         }
 
@@ -217,6 +216,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunTurnManagerCallbacks, 
             {
                 Debug.Log("This is my turn.");
                 Array.ForEach(m_myControllerObjects, e => e.SetActive(true));
+                SkillGaugeManager.Instance.SetGaugePattern();
             }
             else
             {
