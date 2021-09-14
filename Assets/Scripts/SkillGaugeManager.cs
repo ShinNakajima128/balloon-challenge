@@ -8,10 +8,10 @@ public class SkillGaugeManager : MonoBehaviour
     [SerializeField] GameObject[] gaugePattern = new GameObject[5];
     [SerializeField] float m_skillSpeed = 3f;
     int patternNumber = 0;
-    bool m_isEfect = false;
+
+    public static bool IsEfect = false;
     public static SkillGaugeManager Instance;
 
-    public bool IsEfect => m_isEfect;
     private void Awake()
     {
         Instance = this;
@@ -31,11 +31,11 @@ public class SkillGaugeManager : MonoBehaviour
         int judgePatternNumber = (int)(value / judgeNumber);
         if (judgePatternNumber == patternNumber)
         {
-            m_isEfect = true;
+            IsEfect = true;
         }
         else
         {
-            m_isEfect = false;
+            IsEfect = false;
         } 
 
 

@@ -50,7 +50,7 @@ public class PowerGaugeController : MonoBehaviour
     IEnumerator PingPongGauge()
     {
         float timer = 0;
-        float speed = SkillGaugeManager.Instance.SkillSpeed(SkillGaugeManager.Instance.IsEfect);
+        float speed = SkillGaugeManager.Instance.SkillSpeed(SkillGaugeManager.IsEfect);
 
         while (true)
         {
